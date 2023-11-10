@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Example</title>
+    <style>
+        /* 在这里添加样式 */
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 按钮元素 -->
+    <button id="getdevicesinfos" class="button">获取相关设备固件</button>
+    <button id="tofastbootMode" class="button">进入fastboot模式</button>
+    <button id="openMiFlash" class="button">打开小米刷机软件</button>
+    <button id="reboot" class="button">手机重启</button>
+    
+    
+
+    <!-- 在这里添加 JavaScript -->
+    <script>
+        
+        var adbcommand = '"C:\\Program Files (x86)\\Android\\android-sdk\\platform-tools\\adb.exe" '
+        var fastbootcommand = '"C:\\Program Files (x86)\\Android\\android-sdk\\platform-tools\\fastboot.exe" '
+        document.getElementById('tofastbootMode').onclick = function() {
+            const command = adbcommand +'reboot bootloader';
+            runWindowCmd(command);
+        };
+
+        document.getElementById('reboot').onclick = function() {
+            const command = fastbootcommand + 'reboot';
+            runWindowCmd(command);
+        }
+
+        document.getElementById('openMiFlash').onclick = function() {
+            utools.shellOpenExternal("C:\\Users\\13606\\Desktop\\flashfile\\tools\\MiFlash2018-5-28-0\\XiaoMiFlash.exe");
+        }
+
+        document.getElementById('getdevicesinfos').onclick = function() {
+            const command = adbcommand + 'shell getprop ro.product.name';
+            runWindowCmd(command,(error, stdout, stderr)=>{
+                utools.shellOpenExternal(`https://xiaomirom.com/series/${stdout}/`);
+            });
+        }
+
+        function runWindowCmd(command,callback){
+            utools.showNotification(`信息发送成功`)
+            window.execCmd(command, (error, stdout, stderr) => {
+                if (error) {
+                    utools.showNotification(`执行命令时出错: ${error.message}`);
+                    return;
+                }
+                if (stderr) {
+                    utools.showNotification(`命令输出错误: ${stderr}`);
+                    return;
+                }
+                if(callback){
+                    callback(error, stdout, stderr);
+                }
+                utools.showNotification(`信息接收结果: ${stdout}`)
+            });
+        }
+    </script>
+
+</body>
+</html>

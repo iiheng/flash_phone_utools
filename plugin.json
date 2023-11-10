@@ -1,0 +1,24 @@
+{
+	"main": "index.html",
+	"logo": "logo.png",
+	"preload": "preload.js",
+	"platform": [
+        "win32",
+        "darwin",
+        "linux"
+    ],
+    "development": {
+        "main": ""
+    },
+	"pluginSetting": {
+        "single": true,
+        "height": 0
+    },
+	"features": [
+		{
+		  "code": "zcbfasas3wdz",
+		  "explain": "hello world",
+			"cmds":["刷机", "root"]
+		}
+	]
+}
